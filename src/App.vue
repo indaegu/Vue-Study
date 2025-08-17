@@ -6,12 +6,18 @@
 
   <!-- 모달창 -->
   <!-- v-if 조건이 참일때만 해당 요소를 렌더링 -->
-  <div v-if="modalOpenStatus === true">
-    <Modal
-      @closeModal="modalOpenStatus = false"
-      :oneRoom="oneRooms[selectOneRoomIndex]"
-    />
-  </div>
+  <!-- 모달창 -->
+  <Transition name="fade">
+    <!-- Transition태그는 단 하나의 루트노드가 있을때 정상적으로 사용 가능함. 
+     따라서 div 태그를 지우면 Modal 컴포넌트 내부의 template 태그와 충돌이 발생 -->
+    <div v-if="modalOpenStatus === true">
+      <Modal
+        @closeModal="modalOpenStatus = false"
+        :oneRoom="oneRooms[selectOneRoomIndex]"
+      />
+    </div>
+  </Transition>
+
   <div v-if="1 == 2">참이라면 이게 보이고</div>
   <div v-else-if="1 == 3">아니라면 이게보임</div>
   <div v-else>아니라면 이게보임2</div>
@@ -96,5 +102,26 @@ div {
 }
 .item-img {
   cursor: pointer;
+}
+/* 애니메이션 */
+.start {
+  opacity: 1;
+  transition: all 2ms;
+}
+.end {
+  opacity: 0;
+}
+/* Vue transition 클래스 네이밍 규칙: name-enter-active, name-leave-active 등 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease; /* 0.5초 동안 서서히 */
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0; /* 시작은 안 보이게 */
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1; /* 끝은 보이게 */
 }
 </style>
