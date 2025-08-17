@@ -3,11 +3,14 @@
     <img
       class="item-img"
       :src="oneRoom.image"
-      alt="상품이미지`${oneRooms.image}`"
+      alt="상품대체이미지"
+      @click="$emit('openModal', oneRoom.id)"
     />
-    <h4>{{ oneRoom.title }}</h4>
+    <h4 style="cursor: pointer" @click="$emit('openModal', oneRoom.id)">
+      {{ oneRoom.title }}
+    </h4>
     <p>{{ oneRoom.price }} 만원</p>
-    <button>허위매물신고</button>
+    <button @click="$emit('reportUp', oneRoom.id)">허위매물신고</button>
     <span>신고수 : {{ oneRoom.reportCount }}</span>
   </div>
 </template>

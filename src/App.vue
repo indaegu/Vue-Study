@@ -6,16 +6,26 @@
 
   <!-- 모달창 -->
   <!-- v-if 조건이 참일때만 해당 요소를 렌더링 -->
-  <Modal />
+  <div v-if="modalOpenStatus === true">
+    <Modal
+      @closeModal="modalOpenStatus = false"
+      :oneRoom="oneRooms[selectOneRoomIndex]"
+    />
+  </div>
   <div v-if="1 == 2">참이라면 이게 보이고</div>
   <div v-else-if="1 == 3">아니라면 이게보임</div>
   <div v-else>아니라면 이게보임2</div>
 
   <!-- 제목 -->
   <h1>뷰동산</h1>
-
   <!-- 매물 컨텐츠 -->
-  <Card :oneRoom="oneRoom" v-for="(oneRoom, j) in oneRooms" :key="j" />
+  <Card
+    @openModal="(modalOpenStatus = true), (selectOneRoomIndex = $event)"
+    @reportUp="oneRooms[$event].reportCount++"
+    :oneRoom="oneRoom"
+    v-for="(oneRoom, j) in oneRooms"
+    :key="j"
+  />
 
   <!-- <div v-for="(oneRooms, j) in oneRooms" :key="j">
     <img class="item-img" :src="oneRooms.image" alt="" @click="modalOpen(j)" />
@@ -25,7 +35,7 @@
     <span>신고수 : {{ oneRooms.reportCount }}</span>
   </div> -->
   <!-- 자식컴포넌트 -->
-  <Discount v-bind="obj" /> <Modal />
+  <Discount v-bind="obj" /> <Discount />
 </template>
 
 <script>
@@ -51,18 +61,7 @@ export default {
     };
   },
   // Vue에선 해당 위치에서 함수를 선언한다.
-  methods: {
-    reportCountUp(j) {
-      this.oneRooms[j].reportCount++;
-    },
-    modalOpen(j) {
-      this.selectOneRoomIndex = j;
-      this.modalOpenStatus = true;
-    },
-    modalClose() {
-      this.modalOpenStatus = false;
-    },
-  },
+  methods: {},
 };
 </script>
 
